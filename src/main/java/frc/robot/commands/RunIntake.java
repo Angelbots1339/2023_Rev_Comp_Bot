@@ -4,22 +4,23 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class TestElevatorMove extends CommandBase {
-  private ElevatorSubsystem elevatorSubsystem;
-  private double goal;
-  private double input;
+public class RunIntake extends CommandBase {
 
-  /** Creates a new ElevatorToBottom. */
-  public TestElevatorMove(ElevatorSubsystem elevatorSubsystem, boolean leftInput, boolean rightInput) {
+  private IntakeSubsystem intakeSubsystem;
+  private DoubleSupplier speed;
+
+  /** Creates a new RunIntake. */
+  public RunIntake(IntakeSubsystem intakeSubsystem, DoubleSupplier speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.elevatorSubsystem = elevatorSubsystem;
-    addRequirements(elevatorSubsystem);
 
-    goal = elevatorSubsystem.getGoal();
-    input = (rightInput ? 1 : 0) - (leftInput ? 1 : 0);
+    this.intakeSubsystem = intakeSubsystem;
+    this.speed = speed;
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,13 +30,14 @@ public class TestElevatorMove extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    goal += input / 100;
-    elevatorSubsystem.elevatorToPos(goal);
+    intakeSubsystem.runIntakeAtPercent(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intakeSubsystem.disable();
+  }
 
   // Returns true when the command should end.
   @Override

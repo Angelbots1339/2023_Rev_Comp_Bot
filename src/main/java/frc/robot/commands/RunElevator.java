@@ -9,17 +9,16 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElevatorSubsystem;
 
-public class ElevatorToPos extends CommandBase {
+public class RunElevator extends CommandBase {
 
   private ElevatorSubsystem elevatorSubsystem;
-  private DoubleSupplier goal;
-  private boolean isAtSetpoint;
+  private DoubleSupplier speed;
 
-  /** Creates a new ElevatorToBottom. */
-  public ElevatorToPos(ElevatorSubsystem elevatorSubsystem, DoubleSupplier goal) {
+  /** Creates a new RunElevator. */
+  public RunElevator(ElevatorSubsystem elevatorSubsystem, DoubleSupplier speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.elevatorSubsystem = elevatorSubsystem;
-    this.goal = goal;
+    this.speed = speed;
     addRequirements(elevatorSubsystem);
   }
 
@@ -30,18 +29,16 @@ public class ElevatorToPos extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    isAtSetpoint = elevatorSubsystem.elevatorToPos(goal.getAsDouble());
+    elevatorSubsystem.runElevatorAtPercent(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    elevatorSubsystem.disable();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isAtSetpoint;
+    return false;
   }
 }

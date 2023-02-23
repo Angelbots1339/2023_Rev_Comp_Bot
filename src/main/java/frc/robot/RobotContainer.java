@@ -19,7 +19,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Drive;
-import frc.robot.commands.TestElevatorMove;
+import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -33,10 +33,12 @@ import frc.robot.subsystems.ElevatorSubsystem;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
+import frc.robot.subsystems.IntakeSubsystem;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ElevatorSubsystem m_ElevatorControls = new ElevatorSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -58,10 +60,12 @@ public class RobotContainer {
                 MathUtil.applyDeadband(-m_driverController.getRightX(), 0.06),
                 true)
     );
-    m_ElevatorControls.setDefaultCommand(
-        new TestElevatorMove(m_ElevatorControls, m_driverController.getLeftBumper(), m_driverController.getRightBumper())
-    );
   }
+
+
+  private final JoystickButton runIntake = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton runOuttake = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
+
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -73,10 +77,12 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
+    
+    runIntake.whileTrue(new RunIntake(intakeSubsystem, () -> 0.5));
+    runOuttake.whileTrue(new RunIntake(intakeSubsystem, () -> -0.5));
+
+
+
   }
 
   /**
