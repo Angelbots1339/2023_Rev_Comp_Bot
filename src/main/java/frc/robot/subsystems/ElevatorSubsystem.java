@@ -24,9 +24,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final ProfiledPIDController controller;
 
   public ElevatorSubsystem() {
-    leadMotor = new CANSparkMax(DriveConstants.leadDeviceID, MotorType.kBrushless);
-    followMotor = new CANSparkMax(DriveConstants.followDeviceID, MotorType.kBrushless);
-    followMotor.follow(leadMotor);
+    leadMotor = new CANSparkMax(ElevatorConstants.ELEVATOR_LEADER_ID, MotorType.kBrushless);
+    followMotor = new CANSparkMax(ElevatorConstants.ELEVATOR_FOLLOWER_ID, MotorType.kBrushless);
+    // followMotor.follow(leadMotor);
     followMotor.setInverted(true);
 
 
@@ -36,6 +36,9 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     encoder.setDistancePerPulse(Units.inchesToMeters(1.7) * Math.PI * 2 /  42);
     
+    leadMotor.setSmartCurrentLimit(ElevatorConstants.ELEVATOR_CURRENT_LIMIT);
+    followMotor.setSmartCurrentLimit(ElevatorConstants.ELEVATOR_CURRENT_LIMIT);
+
   }
 
   public boolean elevatorToPos(double goal) {

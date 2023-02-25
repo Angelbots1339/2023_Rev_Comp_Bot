@@ -19,6 +19,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Drive;
+import frc.robot.commands.RunElevator;
 import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +27,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
+import java.util.function.DoubleSupplier;
+
 import frc.robot.subsystems.ElevatorSubsystem;
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -34,11 +37,13 @@ import frc.robot.subsystems.ElevatorSubsystem;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final ElevatorSubsystem m_ElevatorControls = new ElevatorSubsystem();
+  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final WristSubsystem wristSubsystem = new WristSubsystem();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -60,11 +65,15 @@ public class RobotContainer {
                 MathUtil.applyDeadband(-m_driverController.getRightX(), 0.06),
                 true)
     );
+
+    elevatorSubsystem.setDefaultCommand(new RunElevator(elevatorSubsystem, elevatorSpeedSupplier));
   }
 
 
   private final JoystickButton runIntake = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
   private final JoystickButton runOuttake = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
+
+  private final DoubleSupplier elevatorSpeedSupplier = () -> (m_driverController.getLeftTriggerAxis() - m_driverController.getRightTriggerAxis()) / 5;
 
 
   /**
@@ -80,6 +89,7 @@ public class RobotContainer {
     
     runIntake.whileTrue(new RunIntake(intakeSubsystem, () -> 0.5));
     runOuttake.whileTrue(new RunIntake(intakeSubsystem, () -> -0.5));
+
 
 
 

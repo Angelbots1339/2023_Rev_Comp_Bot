@@ -50,17 +50,17 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 1;
-    public static final int kFrontRightDrivingCanId = 2;
-    public static final int kRearLeftDrivingCanId = 3;
-    public static final int kRearRightDrivingCanId = 4;
+    public static final int kFrontLeftDrivingCanId = 4;
+    public static final int kFrontRightDrivingCanId = 6;
+    public static final int kRearLeftDrivingCanId = 2;
+    public static final int kRearRightDrivingCanId = 8;
 
     public static final int kFrontLeftTurningCanId = 5;
-    public static final int kFrontRightTurningCanId = 6;
-    public static final int kRearLeftTurningCanId = 7;
-    public static final int kRearRightTurningCanId = 8;
+    public static final int kFrontRightTurningCanId = 7;
+    public static final int kRearLeftTurningCanId = 3;
+    public static final int kRearRightTurningCanId = 9;
 
-    public static final int kPigeon_ID = 0;
+    public static final int kPigeon_ID = 1;
 
     public static final boolean kGyroReversed = false;
   }
@@ -139,6 +139,7 @@ public final class Constants {
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
   public static final class ElevatorConstants {
+
     public static final double kDt = 0.02;
 
     public static final double maxVelocity = 1;
@@ -147,13 +148,34 @@ public final class Constants {
     public static final double toPosP = 0;
     public static final double toPosI = 0;
     public static final double toPosD = 0;
-  }
+
+    public static final int ELEVATOR_CURRENT_LIMIT = 40;
+
+    public static final int ELEVATOR_LEADER_ID = 19;
+    public static final int ELEVATOR_FOLLOWER_ID = 20;
+
+  } 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
   public static final class IntakeConstants{
-    public static final int INTAKE_MOTOR_ID = -1; // TODO Change this
-    public static final int INTAKE_MOTOR_CURRENT_LIMIT = 30;
+    public static final int INTAKE_MOTOR_ID = 16;
+    public static final int INTAKE_MOTOR_CURRENT_LIMIT = 25;
+  }
+  public static final class WristConstants {
+
+    public static final int WRIST_MOTOR_ID = 17;
+    public static final int WRIST_MOTOR_CURRENT_LIMIT = 30;
+    
+    public static final double WRIST_P = 0;
+    public static final double WRIST_I = 0;
+    public static final double WRIST_D = 0;
+
+    public static final double WRIST_KS = 0;
+
+    public static final double WRIST_LOWER_LIMIT = 0;
+    public static final double WRIST_UPPER_LIMIT = 0;
+
   }
 }
