@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -26,8 +27,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   public ElevatorSubsystem() {
     leadMotor = new CANSparkMax(ElevatorConstants.ELEVATOR_LEADER_ID, MotorType.kBrushless);
     followMotor = new CANSparkMax(ElevatorConstants.ELEVATOR_FOLLOWER_ID, MotorType.kBrushless);
-    // followMotor.follow(leadMotor);
-    followMotor.setInverted(true);
+    followMotor.follow(leadMotor, true);
+
+    leadMotor.setIdleMode(IdleMode.kBrake);
+    followMotor.setIdleMode(IdleMode.kBrake);
 
 
     pidController = leadMotor.getPIDController();
@@ -44,7 +47,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public boolean elevatorToPos(double goal) {
 
     double output = controller.calculate(leadMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition(), goal);
-    leadMotor.set(output);
+    leadMotor.setVoltage(output);
 
     return controller.atGoal();
   }

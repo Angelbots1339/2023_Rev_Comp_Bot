@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -14,12 +16,12 @@ import frc.robot.subsystems.DriveSubsystem;
 public class Drive extends CommandBase {
   /** Creates a new Drive. */
   DriveSubsystem driveSubsystem;
-  private double xSpeed;
-  private double ySpeed;
-  private double rot;
+  private DoubleSupplier xSpeed;
+  private DoubleSupplier ySpeed;
+  private DoubleSupplier rot;
   private boolean fieldRelative;
 
-  public Drive(DriveSubsystem driveSubsystem, double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+  public Drive(DriveSubsystem driveSubsystem, DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier rot, boolean fieldRelative) {
     this.driveSubsystem = driveSubsystem;
     this.xSpeed = xSpeed;
     this.ySpeed = ySpeed;
@@ -35,7 +37,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.drive(xSpeed, ySpeed, rot, fieldRelative);
+    driveSubsystem.drive(xSpeed.getAsDouble(), ySpeed.getAsDouble(), rot.getAsDouble(), fieldRelative);
   }
 
   // Called once the command ends or is interrupted.

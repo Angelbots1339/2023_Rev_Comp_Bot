@@ -38,10 +38,11 @@ public final class Constants {
     public static final double kWheelBase = Units.inchesToMeters(25);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+      new Translation2d(kWheelBase / 2, -kTrackWidth / 2), // Front Left
+      new Translation2d(-kWheelBase / 2, -kTrackWidth / 2), // Back Left
+      new Translation2d(kWheelBase / 2, kTrackWidth / 2), // Front Right
+      new Translation2d(-kWheelBase / 2, kTrackWidth / 2) // Back Right
+        );
 
     // Angular offsets of the modules relative to the chassis in radians
     public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
@@ -53,12 +54,12 @@ public final class Constants {
     public static final int kFrontLeftDrivingCanId = 4;
     public static final int kFrontRightDrivingCanId = 6;
     public static final int kRearLeftDrivingCanId = 2;
-    public static final int kRearRightDrivingCanId = 8;
+    public static final int kRearRightDrivingCanId = 9;
 
     public static final int kFrontLeftTurningCanId = 5;
     public static final int kFrontRightTurningCanId = 7;
     public static final int kRearLeftTurningCanId = 3;
-    public static final int kRearRightTurningCanId = 9;
+    public static final int kRearRightTurningCanId = 8;
 
     public static final int kPigeon_ID = 1;
 
@@ -117,7 +118,7 @@ public final class Constants {
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
-    public static final int kTurningMotorCurrentLimit = 20; // amps
+    public static final int kTurningMotorCurrentLimit = 30; // amps
   }
 
   public static final class OIConstants {
@@ -166,13 +167,15 @@ public final class Constants {
   public static final class WristConstants {
 
     public static final int WRIST_MOTOR_ID = 17;
-    public static final int WRIST_MOTOR_CURRENT_LIMIT = 30;
+    public static final int WRIST_MOTOR_CURRENT_LIMIT = 40;
     
-    public static final double WRIST_P = 0;
+    public static final double WRIST_P = 4;
     public static final double WRIST_I = 0;
     public static final double WRIST_D = 0;
 
-    public static final double WRIST_KS = 0;
+    public static final double WRIST_KS = 1;
+    public static final double WRIST_KG = 0;
+    public static final double WRIST_KV = 0;
 
     public static final double WRIST_LOWER_LIMIT = 0;
     public static final double WRIST_UPPER_LIMIT = 0;
